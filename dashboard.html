@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Institute Management - Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+
+    .navbar {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar h1 {
+      font-size: 24px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .user-info p {
+      font-size: 14px;
+    }
+
+    .logout-btn {
+      padding: 8px 16px;
+      background: white;
+      color: #667eea;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .logout-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .btn-group {
+      margin-bottom: 20px;
+    }
+
+    .show-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .show-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table thead {
+      background-color: #f0f0f0;
+    }
+
+    table th,
+    table td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    table th {
+      font-weight: bold;
+      background-color: #667eea;
+      color: white;
+    }
+
+    table tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #999;
+    }
+
+    .welcome {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 5px;
+    }
+
+    .query-section {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px solid #ddd;
+    }
+
+    .query-section h2 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    #sqlQuery {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-family: monospace;
+      font-size: 14px;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+    }
+
+    #sqlQuery:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+    }
+
+    #queryResult {
+      margin-top: 20px;
+    }
+
+    #queryResult table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    #queryResult th,
+    #queryResult td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    #queryResult th {
+      background-color: #667eea;
+      color: white;
+      font-weight: bold;
+    }
+
+    #queryResult tbody tr:hover {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+    <h1>Institute Management Dashboard</h1>
+    <div class="user-info">
+      <p>Welcome, <strong id="username"></strong></p>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="welcome">
+      <p>You are successfully logged in. Click the button below to view enrollment data.</p>
+    </div>
+
+    <div class="card">
+      <h2>Institute Enrollments</h2>
+
+      <div class="btn-group">
+        <button class="show-btn" onclick="loadData()">Load Enrollment Data</button>
+      </div>
+
+      <div id="tableContainer" style="display: none">
+        <table>
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Course</th>
+              <th>Fee</th>
+              <th>Enrollment Date</th>
+            </tr>
+          </thead>
+          <tbody id="tableData"></tbody>
+        </table>
+      </div>
+
+      <div id="loadingMsg" class="loading" style="display: none">
+        Loading data...
+      </div>
+
+      <!-- AI & Query Sections -->
+      <div class="query-section">
+        <h2>🤖 Ask AI</h2>
+        <input type="text" id="question" placeholder="Ask AI something..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px; font-size: 14px; box-sizing: border-box;">
+        <button class="show-btn" onclick="askAI()" style="margin-bottom: 15px;">Ask AI</button>
+        <p id="answer" style="padding: 10px; background-color: #f9f9f9; border-radius: 5px; min-height: 30px; color: #333;"></p>
+      </div>
+
+  <!-- SQL Query section -->
+  <div class="query-section">
+    <h2>📊 Run SQL Query</h2>
+    <p style="color: #666; margin-bottom: 10px; font-size: 14px;">
+      Execute any SELECT query directly. Check <code>SAMPLE_QUERIES.md</code> for example queries.
+    </p>
+    <textarea id="sqlQuery" rows="4" placeholder="Example: SELECT * FROM students;"></textarea>
+    <button class="show-btn" onclick="runQuery()" style="margin-bottom: 15px;">Execute Query</button>
+
+    <div id="queryResult" style="display:none; overflow-x:auto;">
+      <table id="queryTable">
+        <thead id="queryHead"></thead>
+        <tbody id="queryBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // Load username on page load
+    document.addEventListener("DOMContentLoaded", async function () {
+      const loggedIn = await checkSession();
+      if (!loggedIn) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      // Get username from session (you might want to add this to your check-session endpoint)
+      const response = await fetch("http://localhost:3000/check-session", {
+        credentials: "include",
+      });
+      const data = await response.json();
+      document.getElementById("username").textContent = data.username || "User";
+    });
+
+    // Show loading message while fetching
+    const originalLoadData = window.loadData;
+    window.loadData = async function () {
+      document.getElementById("loadingMsg").style.display = "block";
+      document.getElementById("tableContainer").style.display = "none";
+      await originalLoadData();
+      document.getElementById("loadingMsg").style.display = "none";
+      document.getElementById("tableContainer").style.display = "block";
+    };
+  </script>
+</body>
+</html>

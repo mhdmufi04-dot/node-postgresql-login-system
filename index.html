@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Institute Management - Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* utility class for toggling forms */
+    .hidden {
+      display: none !important;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-container {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .login-container h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: bold;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .error-message {
+      color: #e74c3c;
+      margin-bottom: 15px;
+      text-align: center;
+      display: none;
+    }
+
+    .success-message {
+      color: #27ae60;
+      margin-bottom: 15px;
+      text-align: center;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-container">
+    <h1 id="formTitle">Institute Management</h1>
+    <div class="error-message" id="errorMsg"></div>
+    <div class="success-message" id="successMsg"></div>
+
+    <!-- Login Form -->
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label for="loginUsername">Username</label>
+        <input
+          type="text"
+          id="loginUsername"
+          name="username"
+          required
+          placeholder="Enter your username"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input
+          type="password"
+          id="loginPassword"
+          name="password"
+          required
+          placeholder="Enter your password"
+        />
+      </div>
+
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+
+    <!-- Registration Form -->
+    <form id="registerForm" onsubmit="handleRegister(event)" class="hidden">
+      <div class="form-group">
+        <label for="registerUsername">Username</label>
+        <input
+          type="text"
+          id="registerUsername"
+          name="username"
+          required
+          placeholder="Choose a username"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="registerPassword">Password</label>
+        <input
+          type="password"
+          id="registerPassword"
+          name="password"
+          required
+          placeholder="Create a password (min 6 characters)"
+          minlength="6"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          required
+          placeholder="Confirm your password"
+          minlength="6"
+        />
+      </div>
+
+      <button type="submit" class="register-btn">Create Account</button>
+    </form>
+
+    <div class="switch-form" onclick="toggleForm()">
+      <span id="switchText">Don't have an account? Create one</span>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // ensure correct form state on page load
+    document.addEventListener("DOMContentLoaded", function () {
+      // hide register form initially
+      const registerForm = document.getElementById("registerForm");
+      if (registerForm) {
+        registerForm.classList.add("hidden");
+      }
+    });
+  </script>
+</body>
+</html>

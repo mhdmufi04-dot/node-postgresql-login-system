@@ -1,0 +1,42 @@
+(node:22879) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Server running on port 3000
+Query execution error: error: relation "enrollments" does not exist
+    at /Users/muhammedmufeed/solve-a-thon3/postgresql.html/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async /Users/muhammedmufeed/solve-a-thon3/postgresql.html/server.js:179:20 {
+  length: 110,
+  severity: 'ERROR',
+  code: '42P01',
+  detail: undefined,
+  hint: undefined,
+  position: '15',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '1469',
+  routine: 'parserOpenTable'
+}
+AI result {
+  response: {
+    candidates: [ [Object] ],
+    usageMetadata: {
+      promptTokenCount: 5,
+      candidatesTokenCount: 1115,
+      totalTokenCount: 2149,
+      promptTokensDetails: [Array],
+      thoughtsTokenCount: 1029
+    },
+    modelVersion: 'gemini-2.5-flash',
+    responseId: 'nX2yaZK4Ff2kjuMP343uoAI',
+    text: [Function (anonymous)],
+    functionCall: [Function (anonymous)],
+    functionCalls: [Function (anonymous)]
+  }
+}
